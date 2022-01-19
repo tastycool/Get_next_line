@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 13:39:52 by tberube-          #+#    #+#             */
-/*   Updated: 2022/01/18 13:44:10 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/01/19 09:12:50 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,13 @@
 #include <stdio.h>
 #include <unistd.h>
 
+typedef struct s_print
+{
+	char	str;
+	int		buf_size;
+	
+};
 
+
+#endif
 
