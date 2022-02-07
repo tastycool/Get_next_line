@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 13:39:52 by tberube-          #+#    #+#             */
-/*   Updated: 2022/01/26 11:05:24 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/02/03 12:48:37 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 
 # include <stdio.h>
 # include <unistd.h>
+# include <fcntl.h>
+# include <stdlib.h>
 
 # ifndef BUFFER_SIZE
-# define BUFFER_SIZE 10
+# define BUFFER_SIZE 1000
 # endif
 
 typedef struct s_get
