@@ -6,22 +6,35 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 09:54:18 by tberube-          #+#    #+#             */
-/*   Updated: 2022/02/07 13:22:06 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/02/08 11:35:37 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	check_line(int fd, char *str);
-{
+char	*check_line(int fd, char *buffer, char *buff_check)
+{	
 	int	i;
-
-	i = 0;
-	while (str != '\n' || str[i] != '\0')
+	int j;
+	
+	j = ft_strlen(buffer);
+	while (buffer[i] != '\n' || buffer[i] != '\0')
+	{	
+		if (j ==  0)
+			{
+				if (!buff)
+				ft_strjoin()
+			}
 		i++;
-	if (str[i] == '\0')
-		return ();
-	if (str[i] == '\n')
+		j--
+	}
+	if (buffer[i] == '\n')
+	{
+		ft_substr(buffer, 0, BUFFER_SIZE); // questionnement?????????
+		return (buffer);
+	}
+	if (read(fd, buffer, BUFFER_SIZE) < BUFFER_SIZE && ft_strlen(buff_check) != 0)
+		return(buffer);
 			
 }
 
@@ -42,7 +55,7 @@ char	*get_next_line(int fd)
 	char		*buffer;
 	
 	if (!buff_check)
-		buff_check = malloc(sizeof(char) + 1);
+		buff_check = malloc(sizeof(char));
 	if (!buff_check)
 		return (NULL);
 	if (fd < 0 || fd >= 1024 || BUFFER_SIZE <= 0)
@@ -55,7 +68,8 @@ char	*get_next_line(int fd)
 		free(buffer);
 		return(NULL);
 	}
-	return (check_line(fd, buffer));
+	read()
+	return (check_line(fd, buffer, buff_check));
 }
 int	main()
 {
@@ -76,4 +90,5 @@ int	main()
 	// while (*str == '\n')
 	// 	printf("%s", str);
 	// call gnl 
+	close(fd);
 }
