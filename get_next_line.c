@@ -6,36 +6,52 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 09:54:18 by tberube-          #+#    #+#             */
-/*   Updated: 2022/02/08 11:35:37 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/02/10 13:00:49 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*check_line(int fd, char *buffer, char *buff_check)
-{	
-	int	i;
-	int j;
+char	*end_line(char *buffer, char *buff_check)
+{
+	char	tmp;
 	
-	j = ft_strlen(buffer);
-	while (buffer[i] != '\n' || buffer[i] != '\0')
-	{	
-		if (j ==  0)
-			{
-				if (!buff)
-				ft_strjoin()
-			}
-		i++;
-		j--
-	}
-	if (buffer[i] == '\n')
+	tmp = (char *)malloc(ft_strlen(ft_strchr(buffer, '\n')));
+	if (!tmp)
+		return (0);
+	tmp = ft_strchr(buffer, '\n');
+	// chercher et joindre ,,,,, static doit resté avec ce quil y a après le '\n' 
+	// donc si je return buff_check je renvoie ce quil y a après aussi???
+}
+
+
+
+char	*no_end_line(char *buffer, char *buff_check)
+{
+	int	i;
+
+	i = 0;
+	buffer[BUFFER_SIZE + 1] = '\0';
+	while (buffer[i])
 	{
-		ft_substr(buffer, 0, BUFFER_SIZE); // questionnement?????????
-		return (buffer);
+		if (buffer[i] == '\n')
+		{
+			end_line(buffer, buff_check);
+		}
+		i++;
 	}
-	if (read(fd, buffer, BUFFER_SIZE) < BUFFER_SIZE && ft_strlen(buff_check) != 0)
-		return(buffer);
-			
+	buff_check == ft_strjoin( buff_check, buffer);
+	return (buff_check);
+}
+
+char	*find_end_fd(char *buffer, char *buff_check, int ret)
+{
+	buffer = (char *)malloc(sizeof(char) * ret + 1);
+	if (!buffer)
+		return (0);
+	buffer[ret] = '\0';
+	buff_check = ft_strjoin(buff_check, ft_substr(buffer, 0, ret));
+	return (buff_check);
 }
 
 size_t	ft_strlen(const char *s)
@@ -50,26 +66,30 @@ size_t	ft_strlen(const char *s)
 
 char	*get_next_line(int fd)
 {
-	char		*ret_line;
 	static char	*buff_check;
 	char		*buffer;
+	int			ret;
 	
-	if (!buff_check)
-		buff_check = malloc(sizeof(char));
-	if (!buff_check)
-		return (NULL);
 	if (fd < 0 || fd >= 1024 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buffer = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
-	if (!buffer)
-		return (0);
-	while (read(fd, buffer, 0) < 0)
+		if (!buffer)
+			return (0);
+	while (read(fd, buffer, BUFFER_SIZE) > 0)
+	{
+		no_end_line(buffer, buff_check);
+	}
+	if ( BUFFER_SIZE > (ret = read(fd, buffer, BUFFER_SIZE)))
+	{	
+		find_end_fd(buffer, buff_check, ret);
+	}
+	if (read(fd, buffer, 0) < 0)
 	{
 		free(buffer);
 		return(NULL);
 	}
-	read()
-	return (check_line(fd, buffer, buff_check));
+	free(buffer);
+	return (buff_check);
 }
 int	main()
 {

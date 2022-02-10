@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 13:39:52 by tberube-          #+#    #+#             */
-/*   Updated: 2022/02/07 15:36:51 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/02/10 12:59:13 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <stdlib.h>
 
 # ifndef BUFFER_SIZE
-# define BUFFER_SIZE 1000
+# define BUFFER_SIZE 5
 # endif
 
 typedef struct s_get
