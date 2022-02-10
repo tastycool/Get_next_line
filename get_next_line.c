@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 09:54:18 by tberube-          #+#    #+#             */
-/*   Updated: 2022/02/10 13:00:49 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/02/10 13:31:24 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ char	*end_line(char *buffer, char *buff_check)
 	if (!tmp)
 		return (0);
 	tmp = ft_strchr(buffer, '\n');
-	// chercher et joindre ,,,,, static doit resté avec ce quil y a après le '\n' 
-	// donc si je return buff_check je renvoie ce quil y a après aussi???
+	// ne peut pas return (buff_check) triqué le code 
 }
 
 
@@ -89,7 +88,7 @@ char	*get_next_line(int fd)
 		return(NULL);
 	}
 	free(buffer);
-	return (buff_check);
+	return (buffer);
 }
 int	main()
 {
