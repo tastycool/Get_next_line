@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 09:54:18 by tberube-          #+#    #+#             */
-/*   Updated: 2022/02/10 13:31:24 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/02/14 15:06:14 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,16 @@
 
 char	*end_line(char *buffer, char *buff_check)
 {
-	char	tmp;
+	//char	tmp;
 	
 	tmp = (char *)malloc(ft_strlen(ft_strchr(buffer, '\n')));
 	if (!tmp)
 		return (0);
-	tmp = ft_strchr(buffer, '\n');
+	
+	//tmp = ft_strchr(buffer, '\n');       test sans tmp;
+	buffer = ft_strjoin()
 	// ne peut pas return (buff_check) triqué le code 
+	buff_check = ft_strchr(buffer, '\n');
 }
 
 
@@ -36,11 +39,14 @@ char	*no_end_line(char *buffer, char *buff_check)
 		if (buffer[i] == '\n')
 		{
 			end_line(buffer, buff_check);
+			return (buffer);
 		}
 		i++;
 	}
-	buff_check == ft_strjoin( buff_check, buffer);
-	return (buff_check);
+	if (!buff_check)
+		buff_check = ft_substr(buff_check, 0, 0);
+	buffer == ft_strjoin(buff_check, buffer);
+	return (buffer);
 }
 
 char	*find_end_fd(char *buffer, char *buff_check, int ret)
@@ -72,8 +78,8 @@ char	*get_next_line(int fd)
 	if (fd < 0 || fd >= 1024 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buffer = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
-		if (!buffer)
-			return (0);
+	if (!buffer)
+		return (0);
 	while (read(fd, buffer, BUFFER_SIZE) > 0)
 	{
 		no_end_line(buffer, buff_check);
@@ -87,7 +93,7 @@ char	*get_next_line(int fd)
 		free(buffer);
 		return(NULL);
 	}
-	free(buffer);
+	//free(buffer);
 	return (buffer);
 }
 int	main()

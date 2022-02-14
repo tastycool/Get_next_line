@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 12:59:27 by tberube-          #+#    #+#             */
-/*   Updated: 2022/02/08 10:17:32 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/02/14 15:00:37 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,4 +107,17 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 	while (a_src[j] != '\0')
 		j++;
 	return (j);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	while (*s && *s != '\0')
+	{
+		if (*s == (char) c)
+			return ((char *) s);
+		s++;
+	}
+	if (*s == '\0' && c == '\0')
+		return ((char *) s);
+	return (0);
 }
