@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 13:39:52 by tberube-          #+#    #+#             */
-/*   Updated: 2022/02/10 12:59:13 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/02/15 09:55:41 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <stdlib.h>
 
 # ifndef BUFFER_SIZE
-# define BUFFER_SIZE 5
+# define BUFFER_SIZE 1
 # endif
 
 typedef struct s_get
@@ -37,5 +37,6 @@ void	*ft_memcpy(void *dst, const void *src, size_t n);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t	ft_strlen(const char *s);
 char	*check_line(int fd, char *str);
+char	*ft_strchr(const char *s, int c);
 #endif
 

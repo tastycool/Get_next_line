@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 12:59:27 by tberube-          #+#    #+#             */
-/*   Updated: 2022/02/14 15:00:37 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/02/15 09:55:12 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,4 +120,14 @@ char	*ft_strchr(const char *s, int c)
 	if (*s == '\0' && c == '\0')
 		return ((char *) s);
 	return (0);
+}
+
+size_t	ft_strlen(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i] != '\0')
+		i++;
+	return (i);
 }
