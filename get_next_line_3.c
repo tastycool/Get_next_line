@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 16:09:30 by tberube-          #+#    #+#             */
-/*   Updated: 2022/02/16 14:08:31 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/02/16 15:51:38 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,17 @@
 # include <stdlib.h>
 # include "get_next_line.h"
 
-// char	*no_end_line(char *tampon, char **save)
-// {
-// 	if (!save)
-// 		DEBUG;
-// 		*save = ft_substr(*save, 0, 0);
-// 	*save = ft_strjoin(tampon, *save);
-// 	// save = ft_substr(save, 0, 2);
-// 	printf("valeur de save : %s\n", *save);
-// 	return (*save);
-// }
+char	*no_end_line(char *tampon, char **save)
+{
+	if (!save)
+	{
+		DEBUG;
+		*save = ft_substr(tampon, 0, 0);
+	}
+	*save = ft_strjoin(*save, tampon);
+	printf("valeur de save : %s\n", *save);
+	return (*save);
+}
 
 // int	*line_lenght(char *str, int c)
 // {
@@ -53,7 +54,7 @@ char	*get_next_line(int fd)
 		// printf("nb Bytes : %d\n", tampon_bytes);
 		tampon[ret_bytes] = '\0';
 		printf("tampon : %s\n", tampon);
-		line = ft_strjoin(tampon, save);
+		line = no_end_line(tampon, &save);
 		printf("line %s\n", line);
 		// printf("save : %s\n", save);
 	}

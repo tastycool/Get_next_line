@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 10:54:57 by tberube-          #+#    #+#             */
-/*   Updated: 2022/02/16 10:24:39 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/02/16 14:53:32 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*check_line(int fd, char *buffer, char **remening, int ret_bytes)
 	i = 0;
 	ret_bytes = read(fd, buffer, BUFFER_SIZE);
 	buffer[ret_bytes] = '\0';
-	while (ft_strchr(buffer, '\n'))
+	while (!ft_strchr(buffer, '\n'))
 	{
 		buffer
 		if (ret_bytes < BUFFER_SIZE)
