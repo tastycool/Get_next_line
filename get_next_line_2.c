@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 10:54:57 by tberube-          #+#    #+#             */
-/*   Updated: 2022/02/15 11:50:20 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/02/16 10:24:39 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,52 +14,79 @@
 #include "get_next_line.h"
 #include <limits.h>
 
-void	*end_fd(char *buffer, char *buff_check, int end_BS)
+char	*end_line(char *buffer, char **remening, int i)
 {
-	buff_check = (char *)malloc(sizeof(char) * end_BS + 1)
-	if (!buff_check)
-		return (0)
-	buffer = ft_strjoin(&buff_check, ft_substr(buffer, 0, end_BS));
+	i = ft_strlen(ft_strchr(buffer, '\n'));
+	buffer = ft_strjoin(remening, buffer);
+	remening = ft_substr(buffer, i + 1, ft_strlen(buffer) - i);
+	buffer = ft_substr(buffer, 0, i);
+	return (buffer);
 }
 
-void	*check_line(int fd, char *buffer, char *buff_check, int end_BS)
+char	*end_fd(char *buffer, char **remening, int ret_bytes)
+{
+	remening = (char *)malloc(sizeof(char) * ret_bytes + 1);
+	if (!remening)
+		return (0);
+	buffer = ft_strjoin(remening, ft_substr(buffer, 0, ret_bytes));
+	return (buffer);
+}
+
+char	*check_line(int fd, char *buffer, char **remening, int ret_bytes)
 {
 	int	i;
 
 	i = 0;
-	end_BS = read(fd, buffer, BUFFER_SIZE);
-	buffer[end_BS] = '\0';
-	if (end_BS < BUFFER_SIZE)
-		{
-			buffer = end_fd(buffer, &buff_check, end_BS);
-			return (0);
-		}
-	while (*buffer++)
+	ret_bytes = read(fd, buffer, BUFFER_SIZE);
+	buffer[ret_bytes] = '\0';
+	while (ft_strchr(buffer, '\n'))
 	{
+		buffer
+		if (ret_bytes < BUFFER_SIZE)
+		{
+			buffer = end_fd(buffer, remening, ret_bytes);
+			return (buffer);
+		}
 		if (*buffer == '\n')
 		{
-			i = ft_strlen(ft_strchr(buffer, '\n'));
-			buffer = ft_strjoin(buff_check, buffer);
-			buff_check = ft_substr(buffer, i + 1, ft_strlen(buffer) - i);
-			buffer = ft_substr(buffer, 0, i);
+			buffer = end_line(buffer, remening, i);
+			return (buffer);
 		}
 	}
-	if (!buff_check)
-		buff_check = ft_substr(&buff_check, 0, 0);
-	buffer = ft_strjoin(buff_check, buffer);
+	if (!remening)
+		remening = ft_substr(remening, 0, 0);
+	buffer = ft_strjoin(remening, buffer);
+	return (buffer);
+}
+
+int	search_lenght(char *str, int c)
+{
+	int	i;
+	
+	i = 0;
+	while (str[i] != c)
+		i++;
+	return (i + 1);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*buff_check;
+	static char	*remening;
 	char		*buffer;
-	int			end_BS;
+	int			ret_bytes;
 
-	end_BS = 0;
+	ret_bytes = 0;
 	if (fd < 0 || fd >= OPEN_MAX || BUFFER_SIZE <= 0)
 		return (NULL);
-	buffer = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
-	if (!buffer)
-		return (0);
-	buffer = check_line(fd, buffer, &buff_check, end_BS);
+	buffer = check_line(fd, buffer, remening, ret_bytes);
+	return (buffer);
+}
+int main()
+{
+	int	fd;
+
+	fd = open("message.txt", O_RDONLY);
+	DEBUG;
+	printf("%s", get_next_line(fd));
+	close(fd);
 }
