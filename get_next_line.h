@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 13:39:52 by tberube-          #+#    #+#             */
-/*   Updated: 2022/02/17 12:54:44 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/02/21 12:10:29 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include <limits.h>
 
 # ifndef BUFFER_SIZE
-# define BUFFER_SIZE 176
+# define BUFFER_SIZE 9000000
 # endif
 
 typedef struct s_get
