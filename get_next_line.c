@@ -5,111 +5,85 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/19 09:54:18 by tberube-          #+#    #+#             */
-/*   Updated: 2022/02/16 11:53:02 by tberube-         ###   ########.fr       */
+/*   Created: 2022/02/15 16:09:30 by tberube-          #+#    #+#             */
+/*   Updated: 2022/02/21 11:05:00 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-#include <limits.h>
+# include <stdio.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include <stdlib.h>
+# include "get_next_line.h"
 
-char	*end_line(char *buffer, char *buff_check)
+char	*no_end_line(char **save, char *tampon)
 {
-	int	tmp;
-
-	tmp = ft_strlen(ft_strchr(buffer, '\n'));
-	//tmp = (char *)malloc(ft_strlen(ft_strchr(buffer, '\n')));
-	// if (!tmp)
-	// 	return (0);
-	buffer = ft_strjoin(buff_check, buffer);
-	buff_check = ft_substr(buffer, tmp + 1, ft_strlen(buffer) - tmp);
-	//tmp = ft_strchr(buffer, '\n');       test sans tmp;
-	buffer = ft_substr(buffer, 0, tmp);
-	// ne peut pas return (buff_check) triqué le code 
-	return (buffer);
+	if (!*save)
+	{
+		*save = ft_substr(tampon, 0, 0);
+	}
+	*save = ft_strjoin(*save, tampon);
+	// free(tampon);
+	return (*save);
 }
 
-
-
-char	*no_end_line(char *buffer, char *buff_check)
+int	line_lenght(char *str, int c)
 {
 	int	i;
 
 	i = 0;
-	fd_end = read(fd, buffer, BUFFER_SIZE)
-	buffer[fd_end] = '\0';
-	while (buffer[i])
-	{
-		if (buffer[i] == '\n')
-		{
-			end_line(buffer, buff_check);
-			return (buffer);
-		}
+	while (str[i] != c)
 		i++;
-	}
-	if (!buff_check)
-		buff_check = ft_substr(buff_check, 0, 0);
-	buffer = ft_strjoin(buff_check, buffer);
-	return (buffer);
-}
-// regarder demain mardi
-char	*find_end_fd(char *buffer, char *buff_check, int fd_end)
-{
-	buff_check = (char *)malloc(sizeof(char) * fd_end + 1);
-	if (!buff_check)
-		return (0);
-	//buffer[ret] = '\0';
-	buffer = ft_strjoin(buff_check, ft_substr(buffer, 0, fd_end));
-	//buffer[ret] = '\0';
-	return (buffer);
+	return (i + 1);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*buff_check;
-	char		*buffer;
-	int			fd_end;
+	int			ret_bytes;
+	char		*tampon;
+	static char	*save;
+	char		*tmp;
+	// char		*free_tmp;
 	
+	ret_bytes = 0;
+	tampon = NULL;
+	tmp = NULL;
 	if (fd < 0 || fd >= OPEN_MAX || BUFFER_SIZE <= 0)
 		return (NULL);
-	buffer = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
-	if (!buffer)
-		return (0);
-	while (read(fd, buffer, BUFFER_SIZE) == BUFFER_SIZE)
+	while (!tampon || !ft_strchr(tampon, '\n'))
 	{
-		buffer = no_end_line(buffer, &buff_check);
+		tampon = malloc(sizeof(char) * BUFFER_SIZE + 1);
+		ret_bytes = read(fd, tampon, BUFFER_SIZE);
+		tampon[ret_bytes] = '\0';
+		save = no_end_line(&save, tampon);
 	}
-	
-	if (BUFFER_SIZE > (fd_end = read(fd, buffer, BUFFER_SIZE)))
-	{	
-		find_end_fd(buffer, buff_check, fd_end);
-	}
-	if (read(fd, buffer, 0) < 0)
-	{
-		free(buffer);
-		return(NULL);
-	}
-	//free(buffer);
-	return (buffer);
+	tmp = ft_substr(save, 0, line_lenght(save, '\n'));
+	save = ft_substr(save, line_lenght(save, '\n'), line_lenght(save, '\0') - line_lenght(save, '\n'));
+	// free_tmp = tmp;
+	// free(tmp);
+	free(tampon);
+	return (tmp);
 }
-int	main()
-{
-	int	fd;
-	//char	*str;
 
-	fd = open("message.txt", O_RDONLY);
-	// open file
-	//printf("%d\n", fd);
-	//str = get_next_line(fd);
-	// print fd
-	printf("%s", get_next_line(fd));
-	// printf("%s", get_next_line(fd));
-	// printf("%s", get_next_line(fd));
-	// printf("%s", get_next_line(fd));
-	// printf("%s", get_next_line(fd));
-	// printf("%s\n", get_next_line(fd));
-	// while (*str == '\n')
-	// 	printf("%s", str);
-	// call gnl 
-	close(fd);
-}
+// int	main()
+// {
+// 	int	fd;
+
+// 	fd = open("message.txt", O_RDONLY);
+// 	printf("1 :%s\n", get_next_line(fd));
+// 	printf("2 :%s\n", get_next_line(fd));
+// 	printf("3 :%s\n", get_next_line(fd));
+// 	printf("4 :%s\n", get_next_line(fd));
+// 	printf("5 :%s\n", get_next_line(fd));
+// 	printf("6 :%s\n", get_next_line(fd));
+// 	printf("7 :%s\n", get_next_line(fd));
+// 	printf("8 :%s\n", get_next_line(fd));
+// 	printf("9 :%s\n", get_next_line(fd));
+// 	printf("10 :%s\n", get_next_line(fd));
+// 	printf("11 :%s\n", get_next_line(fd));
+// 	printf("12 :%s\n", get_next_line(fd));
+// 	printf("13 :%s\n", get_next_line(fd));
+// 	printf("14 :%s\n", get_next_line(fd));
+// 	printf("15 :%s\n", get_next_line(fd));
+// 	printf("16 :%s\n", get_next_line(fd));
+//  }
