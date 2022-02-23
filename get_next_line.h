@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 13:39:52 by tberube-          #+#    #+#             */
-/*   Updated: 2022/02/22 09:34:46 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/02/22 15:00:27 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <limits.h>
 
 # ifndef BUFFER_SIZE
-# define BUFFER_SIZE 1
+# define BUFFER_SIZE 40000
 # endif
 
 char	*get_next_line(int const fd);
@@ -31,7 +31,7 @@ void	*ft_memcpy(void *dst, const void *src, size_t n);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t	ft_strlen(const char *s);
 char	*ft_strchr(const char *s, int c);
-char	*no_end_line(char **save, char *tampon);
+void	no_end_line(char **save, char *tampon);
 char	*end_fd(char *save, char *tampon, char *tmp);
 char	*end_line(char **save, char *tmp);
 int	line_lenght(char *str, int c);

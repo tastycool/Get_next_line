@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 12:59:27 by tberube-          #+#    #+#             */
-/*   Updated: 2022/02/22 10:12:26 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/02/22 15:47:47 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	if (len > ft_strlen(s))
 		len = ft_strlen(s);
 	str = malloc((len + 1) * sizeof(char));
-	printf("malloc 2 : %p\n", str);
+	//printf("malloc 2 : %p\n", str);
 	if (!str)
 		return (0);
 	ft_strlcpy(str, s + start, len + 1);
@@ -55,7 +55,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (!s1)
 		return (0);
 	dst = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
-	printf("malloc 3 : %p\n", dst);
+	//printf("malloc 3 : %p\n", dst);
 	if (!dst)
 		return (0);
 	while (s1[i])
@@ -129,6 +129,8 @@ size_t	ft_strlen(const char *s)
 	size_t	i;
 
 	i = 0;
+	if (!s)
+		return (0);
 	while (s[i] != '\0')
 		i++;
 	return (i);
