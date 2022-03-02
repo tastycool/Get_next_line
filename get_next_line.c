@@ -5,56 +5,25 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/15 16:09:30 by tberube-          #+#    #+#             */
-/*   Updated: 2022/02/23 09:18:22 by tberube-         ###   ########.fr       */
+/*   Created: 2022/03/01 09:45:22 by tberube-          #+#    #+#             */
+/*   Updated: 2022/03/01 15:59:42 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include <stdio.h>
-# include <unistd.h>
-# include <fcntl.h>
-# include <stdlib.h>
 # include "get_next_line.h"
 
-void	no_end_line(char **save, char *tampon)
+char	*end_line(char *all_Line, char **save)
 {
-	char *temp;
-	
-	temp = NULL;
-	if (!*save)
-	{
-		temp  = ft_substr(tampon, 0, 0);
-		*save = temp;
-	}
-		// leak here
-	*save = ft_strjoin(*save, tampon);
-	free(temp);
-}
-
-char	*check_line(int fd, char *tampon, char **save)
-{
-	int	ret_bytes;
 	char	*tmp;
-
-	tmp = NULL;
-	ret_bytes = read(fd, tampon, BUFFER_SIZE);
-	tampon[ret_bytes] = '\0';
-		//printf("debug1: %i\n", ret_bytes);
-	if (ret_bytes <= 0)
-	{
-			// end_fd(save, tampon, tmp);
-		free(tampon);
-			//printf("%s\n", save);
-		if (ft_strlen(*save) == 0)
-			return (NULL);
-		tmp = *save;			
-		*save = ft_substr(*save, line_lenght(*save, '\n'), line_lenght(*save, '\0') - line_lenght(*save, '\n'));
-		return (tmp);
-	}
-	return(0);
+	
+	*save = ft_substr(all_Line, l_cnt(all_Line, '\n'), l_cnt(all_Line, '\0') - l_cnt(all_Line, '\n')); // probleme ce n'est pas une static
+	tmp = ft_substr(all_Line, 0, l_cnt(all_Line, '\n'));
+	free(all_Line);
+	//printf("tmp = %s\n", tmp);
+	return (tmp);
 }
 
-int	line_lenght(char *str, int c)
+int	l_cnt(char *str, int c)
 {
 	int	i;
 
@@ -64,28 +33,60 @@ int	line_lenght(char *str, int c)
 	return (i + 1);
 }
 
-char	*get_next_line(int fd)
+char	*read_line(int fd, char *all_Line, int *Bytes_read)
 {
-	// int			ret_bytes;
-	char		*tampon;
-	static char	*save;
-	char		*tmp;
+	char	*tmp;
+	char	tampax[BUFFER_SIZE + 1];
 	
-	tmp = NULL;
-	if (fd < 0 || fd >= OPEN_MAX || BUFFER_SIZE <= 0)
-		return (NULL);
-	tampon = malloc(sizeof(char) * BUFFER_SIZE + 1);
-	if (!tampon)
-		return (NULL);
-	while (!save || !ft_strchr(save, '\n'))
+	//printf("addresse all_Line = %s\n", all_Line);
+	*Bytes_read = read(fd, tampax, BUFFER_SIZE);
+	if (Bytes_read < 0)
 	{
-		check_line(fd, tampon, &save);
-		no_end_line(&save, tampon);
-	}		
-	free(tampon);
-	tmp = ft_substr(save, 0, line_lenght(save, '\n'));
-	// free this save
-	save = ft_substr(save, line_lenght(save, '\n'), line_lenght(save, '\0') - line_lenght(save, '\n'));
+		free(all_Line); ya qqch que je comprend pas tabarnack
+		return (NULL);
+	}
+	tampax[*Bytes_read] = '\0';
+	if (Bytes_read == 0)
+		return (all_Line);
+	if (!all_Line)
+	{
+		all_Line = ft_substr(tampax, 0, ft_strlen(tampax));
+		return (all_Line);
+	}
+	tmp = ft_strjoin(all_Line, tampax);
+	free(all_Line);
 	return (tmp);
 }
 
+char	*get_next_line(int fd)
+{
+	static char	*save;
+	char		*all_Line;
+	int			Bytes_read;
+
+	printf("fd : %d\n", fd);
+	all_Line = NULL;
+	if (fd < 0 || fd >= 1000 || BUFFER_SIZE <= 0) // a voir pour le 1000
+	{
+		printf("str : %s\n", all_Line);
+		return (all_Line);
+	}
+	if (ft_strlen(save) > 0)
+		all_Line = ft_strjoin(save, "\0");
+	while (!all_Line || !ft_strchr(all_Line, '\n'))
+	{
+		all_Line = read_line(fd, all_Line, &Bytes_read); //peut etre un leak;
+		if (Bytes_read < 0)
+			return (NULL);
+		if (Bytes_read == 0)
+			break;
+	}
+	if (ft_strchr(all_Line, '\n'))
+		return (end_line(all_Line, &save));
+	if (ft_strchr(save, '\0') && Bytes_read == 0)
+	{
+		save = "\0";
+		return (all_Line);
+	}
+	return (all_Line);
+}
