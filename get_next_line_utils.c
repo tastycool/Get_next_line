@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 12:59:27 by tberube-          #+#    #+#             */
-/*   Updated: 2022/03/01 13:54:42 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/03/02 14:55:12 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ char	*ft_strchr(const char *s, int c)
 	}
 	if (*s == '\0' && c == '\0')
 		return ((char *) s);
+	// printf("fd : %d\n", c);
 	return (0);
 }
 
