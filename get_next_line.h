@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 13:39:52 by tberube-          #+#    #+#             */
-/*   Updated: 2022/03/02 14:22:36 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/03/03 11:58:08 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <limits.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE 42
 # endif
 
 char	*get_next_line(int const fd);
@@ -35,6 +35,7 @@ void	no_end_line(char **save, char *tampon);
 char	*end_fd(char *save, char *tampon, char *tmp);
 int		l_cnt(char *str, int c);
 char	*gratuit(char *detruis);
+int		*line_lenght(char *str, int c);
 
 # define DEBUG printf("%s\n", "DEBUG")
 

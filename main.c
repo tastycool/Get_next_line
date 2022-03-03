@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 12:50:03 by tberube-          #+#    #+#             */
-/*   Updated: 2022/03/02 20:29:49 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/03/03 16:04:18 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	main()
 	int	fd;
 	// int i = 0;
 
-	fd = open("./gnlTester/files/multiple_line_no_nl", O_RDONLY);
+	fd = open("./gnlTester/files/multiple_line_no_nl", O_RDWR);
 	// while (i <= 50)
 	// {
 	// 	char *gnl = get_next_line(fd);
@@ -25,14 +25,16 @@ int	main()
 	// 	i++;
 	// }
 	char *str = get_next_line(fd);
-	printf("%s\n", str);
+	printf("%s", str);
 	while (str)
 	{
 		free (str);
 		str = get_next_line(fd);
-		printf("%s\n", str);
+		printf("%s", str);
 	}
 	free (str);
+	close(fd);
+	// fd = open("./gnlTester/files/alternate_line_nl_no_nl", O_RDWR);
 	// printf("3 :%s\n", get_next_line(fd));
 	// printf("4 :%s\n", get_next_line(fd));
 	// printf("5 :%s\n", get_next_line(fd));
