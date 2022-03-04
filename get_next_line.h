@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 13:39:52 by tberube-          #+#    #+#             */
-/*   Updated: 2022/03/03 11:58:08 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/03/04 07:06:43 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int		l_cnt(char *str, int c);
 char	*gratuit(char *detruis);
 int		*line_lenght(char *str, int c);
 
-# define DEBUG printf("%s\n", "DEBUG")
+# define DEBUG printf("%s", "DEBUG")
 
 #endif
 

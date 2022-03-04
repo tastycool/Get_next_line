@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 09:45:22 by tberube-          #+#    #+#             */
-/*   Updated: 2022/03/03 16:09:19 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/03/04 07:28:12 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,24 +45,28 @@ int	l_cnt(char *str, int c)
 	return (i + 1);
 }
 
-char	*read_line(int fd, char *all_Line, int *Bytes_read)
+char	*read_line(int fd, char *all_Line, int *Bytes_read, char **save)
 {
 	char	*tmp;
 	char	tampax[BUFFER_SIZE + 1];
 
 	(*Bytes_read) = read(fd, tampax, BUFFER_SIZE);
+	printf("tampax = %s\n", tampax);
 	tampax[*Bytes_read] = '\0';
 	if (*Bytes_read <= 0)
 	{
-		if (all_Line && all_Line[0])
+		if (all_Line && save)
+		{
+			//printf("save = %s\n", *save);
+			// printf("tampax = %s\n", tampax);
 			return (all_Line);
+		}			
 		return (NULL);
 	}
-	if (Bytes_read == 0)
-		return (all_Line);
 	if (!all_Line)
 	{
 		all_Line = ft_substr(tampax, 0, ft_strlen(tampax));
+		printf("all_line = %s\n", all_Line);
 		return (all_Line);
 	}
 	tmp = ft_strjoin(all_Line, tampax);
@@ -83,10 +87,11 @@ char	*get_next_line(int fd)
 		all_Line = ft_strjoin(save, "");
 	while (!all_Line || !ft_strchr(all_Line, '\n'))
 	{
-		all_Line = read_line(fd, all_Line, &Bytes_read);
+		all_Line = read_line(fd, all_Line, &Bytes_read, &save);
 		if (Bytes_read <= 0)
 		{
 			free_pointer(&save);
+			//DEBUG;
 			if (all_Line || Bytes_read == 0)
 				return (all_Line);	
 			return (NULL);
