@@ -6,31 +6,34 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 09:45:22 by tberube-          #+#    #+#             */
-/*   Updated: 2022/03/04 07:28:12 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/03/04 10:02:24 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "get_next_line.h"
+#include "get_next_line.h"
 
-char	*end_line(char *all_Line, char **save)
+char	*end_line(char *all_line, char **save)
 {
 	char	*tmp;
-	
-	free (*save);	
-	*save = ft_substr(all_Line, l_cnt(all_Line, '\n'), ft_strlen(all_Line) - l_cnt(all_Line, '\n'));
-	if (ft_strchr(all_Line, '\n'))
+
+	free (*save);
+	*save = ft_substr(all_line, l_cnt(all_line, '\n'), \
+	ft_strlen(all_line) - l_cnt(all_line, '\n'));
+	if (ft_strchr(all_line, '\n'))
 	{
-		tmp = ft_substr(all_Line, 0, l_cnt(all_Line, '\n'));
-		free(all_Line);
+		tmp = ft_substr(all_line, 0, l_cnt(all_line, '\n'));
+		free(all_line);
 		return (tmp);
 	}
 	else
-		return (all_Line); // coupé all line
+		return (all_line);
 	return (NULL);
 }
 
-void	free_pointer(char **str)
+void	free_pointer(char **str, char **str2)
 {
+	if (ft_strlen(*str) > 0)
+		*str2 = ft_strjoin(*str, "");
 	free(*str);
 	*str = NULL;
 }
@@ -45,61 +48,55 @@ int	l_cnt(char *str, int c)
 	return (i + 1);
 }
 
-char	*read_line(int fd, char *all_Line, int *Bytes_read, char **save)
+char	*read_line(int fd, char *all_line, int *bytes_read)
 {
 	char	*tmp;
 	char	tampax[BUFFER_SIZE + 1];
 
-	(*Bytes_read) = read(fd, tampax, BUFFER_SIZE);
-	printf("tampax = %s\n", tampax);
-	tampax[*Bytes_read] = '\0';
-	if (*Bytes_read <= 0)
+	(*bytes_read) = read(fd, tampax, BUFFER_SIZE);
+	tampax[*bytes_read] = '\0';
+	if (*bytes_read == 0)
 	{
-		if (all_Line && save)
-		{
-			//printf("save = %s\n", *save);
-			// printf("tampax = %s\n", tampax);
-			return (all_Line);
-		}			
+		if (all_line)
+			return (all_line);
 		return (NULL);
 	}
-	if (!all_Line)
+	if (!all_line)
 	{
-		all_Line = ft_substr(tampax, 0, ft_strlen(tampax));
-		printf("all_line = %s\n", all_Line);
-		return (all_Line);
+		all_line = ft_substr(tampax, 0, ft_strlen(tampax));
+		return (all_line);
 	}
-	tmp = ft_strjoin(all_Line, tampax);
-	free(all_Line);
-	return (tmp);
+	tmp = all_line;
+	all_line = ft_strjoin(all_line, tampax);
+	free(tmp);
+	return (all_line);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	*save = NULL;
-	char		*all_Line;
-	int			Bytes_read;
+	char		*all_line;
+	int			bytes_read;
 
-	all_Line = NULL;
-	if (fd == -1 || fd >= 1000 || BUFFER_SIZE <= 0)
+	all_line = NULL;
+	if (fd == -1 || fd >= 1000 || BUFFER_SIZE <= 0 || read(fd, NULL, 0) < 0)
 		return (NULL);
 	if (ft_strlen(save) > 0)
-		all_Line = ft_strjoin(save, "");
-	while (!all_Line || !ft_strchr(all_Line, '\n'))
+		free_pointer(&save, &all_line);
+	while (!all_line || !ft_strchr(all_line, '\n'))
 	{
-		all_Line = read_line(fd, all_Line, &Bytes_read, &save);
-		if (Bytes_read <= 0)
+		all_line = read_line(fd, all_line, &bytes_read);
+		if (bytes_read == 0)
 		{
-			free_pointer(&save);
-			//DEBUG;
-			if (all_Line || Bytes_read == 0)
-				return (all_Line);	
+			free_pointer(&save, &all_line);
+			if (all_line)
+				return (all_line);
 			return (NULL);
 		}
-		if (Bytes_read < BUFFER_SIZE)
-			break;
+		if (bytes_read < BUFFER_SIZE)
+			break ;
 	}
-	if (ft_strchr(all_Line, '\n'))	
-		return (end_line(all_Line, &save));
-	return (all_Line);
+	if (ft_strchr(all_line, '\n'))
+		return (end_line(all_line, &save));
+	return (all_line);
 }

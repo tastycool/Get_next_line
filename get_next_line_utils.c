@@ -6,7 +6,7 @@
 /*   By: tberube- <tberube-@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 12:59:27 by tberube-          #+#    #+#             */
-/*   Updated: 2022/03/02 14:55:12 by tberube-         ###   ########.fr       */
+/*   Updated: 2022/03/04 10:03:28 by tberube-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,32 +18,14 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 
 	if (!s)
 		return (0);
-	// if (len == 0 || start > ft_strlen(s))
-	// 	return (ft_strdup(""));
 	if (len > ft_strlen(s))
 		len = ft_strlen(s);
 	str = malloc((len + 1) * sizeof(char));
-	//printf("malloc 2 : %p\n", str);
 	if (!str)
 		return (0);
 	ft_strlcpy(str, s + start, len + 1);
-	// printf("str : %s\n", str);
 	return (str);
 }
-
-// char	*ft_strdup(const char *s1)
-// {
-// 	char	*str;
-// 	int		len;
-
-// 	str = (char *)s1;
-// 	len = ft_strlen(s1) + 1;
-// 	str = malloc(len * sizeof(char));
-// 	if (str == NULL)
-// 		return (0);
-// 	ft_memcpy(str, s1, len);
-// 	return (str);
-// }
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
@@ -66,28 +48,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	while (s2[j])
 		dst[i++] = s2[j++];
 	dst[i] = '\0';
-	// printf("dst : %s\n", dst);
 	return (dst);
 }
-
-// void	*ft_memcpy(void *dst, const void *src, size_t n)
-// {
-// 	size_t			i;
-// 	unsigned char	*str1;
-// 	const char		*str2;
-
-// 	i = 0;
-// 	str1 = dst;
-// 	str2 = src;
-// 	if (!str1 && !str2)
-// 		return (0);
-// 	while (n > i)
-// 	{
-// 		str1[i] = str2[i];
-// 		i++;
-// 	}
-// 	return (str1);
-// }
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
@@ -122,7 +84,6 @@ char	*ft_strchr(const char *s, int c)
 	}
 	if (*s == '\0' && c == '\0')
 		return ((char *) s);
-	// printf("fd : %d\n", c);
 	return (0);
 }
 
